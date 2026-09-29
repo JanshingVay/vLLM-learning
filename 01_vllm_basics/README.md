@@ -51,6 +51,14 @@ python client_chat.py
 python client_stream.py
 ```
 
+客户端脚本访问默认的本机地址 `127.0.0.1` 时会自动忽略当前进程的
+HTTP/SOCKS 代理，避免本地请求错误地走代理。若你在终端手动使用 `curl`
+访问本机服务，也可先执行：
+
+```bash
+unset http_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY
+```
+
 服务默认监听 `0.0.0.0:8000`。若从另一台机器访问，把客户端地址替换为服务器 IP：
 
 ```bash

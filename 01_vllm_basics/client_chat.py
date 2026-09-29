@@ -4,6 +4,8 @@ import os
 
 from openai import OpenAI
 
+from client_utils import bypass_proxy_for_local_vllm
+
 
 BASE_URL = os.getenv("VLLM_BASE_URL", "http://127.0.0.1:8000/v1")
 MODEL = os.getenv("MODEL", "Qwen/Qwen2.5-7B-Instruct")
@@ -11,6 +13,7 @@ MODEL = os.getenv("MODEL", "Qwen/Qwen2.5-7B-Instruct")
 
 def main() -> None:
     # 未在 serve.sh 设置 --api-key 时，服务端不会校验该值；客户端仍需要传入非空字符串。
+    bypass_proxy_for_local_vllm(BASE_URL)
     client = OpenAI(base_url=BASE_URL, api_key=os.getenv("VLLM_API_KEY", "EMPTY"))
     completion = client.chat.completions.create(
         model=MODEL,

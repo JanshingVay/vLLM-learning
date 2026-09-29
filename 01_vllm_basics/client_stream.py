@@ -4,12 +4,15 @@ import os
 
 from openai import OpenAI
 
+from client_utils import bypass_proxy_for_local_vllm
+
 
 BASE_URL = os.getenv("VLLM_BASE_URL", "http://127.0.0.1:8000/v1")
 MODEL = os.getenv("MODEL", "Qwen/Qwen2.5-7B-Instruct")
 
 
 def main() -> None:
+    bypass_proxy_for_local_vllm(BASE_URL)
     client = OpenAI(base_url=BASE_URL, api_key=os.getenv("VLLM_API_KEY", "EMPTY"))
     stream = client.chat.completions.create(
         model=MODEL,
